@@ -102,25 +102,28 @@
                     </div>
                     <div class="col-md-6 col-lg-6 col-lg-offset-1">
                         <div class="contact-form">
-                            <form action="#" method="post">
+                            <form id="contactForm" onsubmit="return handleContactForm(event)">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <input type="text" class="field-text" name="name" placeholder="Name">
+                                        <input type="text" class="field-text" name="name" placeholder="Name" required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="field-text" name="email" placeholder="Email">
+                                        <input type="email" class="field-text" name="email" placeholder="Email" required>
                                     </div>
                                     <div class="col-sm-12">
-                                        <input type="text" class="field-text" name="subject" placeholder="Subject">
+                                        <input type="text" class="field-text" name="subject" placeholder="Subject" required>
                                     </div>
                                     <div class="col-sm-12">
-                                        <textarea cols="30" rows="10" name="message" class="field-textarea" placeholder="Write what do you want"></textarea>
+                                        <textarea cols="30" rows="10" name="message" class="field-textarea" placeholder="Write what do you want" required></textarea>
                                     </div>
                                     <div class="col-sm-6">
                                         <button type="submit" class="btn btn-room">SEND</button>
                                     </div>
                                 </div>
                             </form>
+                            <div id="formSuccess" style="display:none; padding: 20px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 4px; margin-top: 15px; color: #155724;">
+                                <strong>Thank you!</strong> Your message has been sent. We will get back to you soon.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -210,6 +213,27 @@ playPromise.then(() => {
 setInterval(function(){
 	$(".blinkers").toggleClass("hide");
 },500);
+</script>
+<script>
+function handleContactForm(e) {
+    e.preventDefault();
+    var form = document.getElementById('contactForm');
+    var name = form.querySelector('[name="name"]').value;
+    var email = form.querySelector('[name="email"]').value;
+    var subject = form.querySelector('[name="subject"]').value;
+    var message = form.querySelector('[name="message"]').value;
+
+    var mailBody = 'Name: ' + name + '\nEmail: ' + email + '\n\n' + message;
+    var mailtoLink = 'mailto:reservation@thetalparadise.com'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(mailBody);
+
+    window.location.href = mailtoLink;
+
+    form.style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+    return false;
+}
 </script>
 </body>
 </html>
